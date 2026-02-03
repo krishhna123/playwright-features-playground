@@ -28,7 +28,7 @@ jobs:
       env: {
         USERNAME: ${{ inputs.environment.USERNAME }},
         PASSWORD: ${{ inputs.environment.PASSWORD }}
-    }
+      }
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
