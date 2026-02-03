@@ -8,8 +8,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.44.0",
-    "@types/node": "^20.12.11"
+    "@playwright/mcp": "latest",
+    "@playwright/test": "^1.58",
+    "@types/node": "^20.12.11",
+    "dotenv": "^17.2.3"
   },
   "dependencies": {
     "csv-parse": "^5.5.6"

@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, Frame } from "@playwright/test";
 
 test("IFrame Test", async ({ page }) => {
   await page.goto("https://ui.vision/demo/webtest/frames");
@@ -23,7 +23,7 @@ test("nested frames", async ({ page }) => {
     url: "https://ui.vision/demo/webtest/frames/iframe3",
   });
 
-  const nestedFrame = frame?.childFrames();
+  const nestedFrame : Frame[]= frame?.childFrames() || [];
 
   await nestedFrame[0].locator("locatory of element").check();
 });

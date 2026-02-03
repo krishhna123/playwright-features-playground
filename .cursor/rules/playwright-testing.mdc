@@ -1,0 +1,78 @@
+---
+description: Playwright test writing standards and best practices
+globs: tests/**/*.spec.ts
+alwaysApply: true
+---
+
+# Playwright Test Standards
+
+## Test Structure
+
+- Use descriptive test names that clearly state what is being tested
+- Group related tests in the same file
+- Import `test` and `expect` from `@playwright/test`
+
+// ✅ GOOD
+test("user can login with valid credentials", async ({ page }) => {
+  // test implementation
+});
+
+// ❌ BAD
+test("login", async ({ page }) => {
+  // test implementation
+});
+
+
+## Locator Strategies
+Prefer semantic locators in this order:
+getByRole() - Most accessible and stable
+getByPlaceholder() - For form inputs
+getByText() - For text content
+getByTestId() - For test-specific attributes
+CSS selectors - When semantic locators aren't available
+XPath - Only as last resort (avoid if possible)
+
+'''
+// ✅ GOOD
+await page.getByRole("button", { name: "Login" }).click();
+await page.getByPlaceholder("Username").fill("Admin");
+
+// ❌ BAD
+await page.locator('//button[text()="Login"]').click(); // XPath
+await page.locator("#username").fill("Admin"); // Fragile ID selector
+'''
+
+## Page Navigation
+Use page.goto() with full URLs for external sites
+Consider using baseURL in config for internal applications
+Wait for navigation to complete before interacting with elements
+
+'''
+// ✅ GOOD
+await page.goto("https://opensource-demo.orangehrmlive.com/");
+await expect(page).toHaveURL(/demo.orangehrmlive/);
+
+// ❌ BAD
+await page.goto("https://opensource-demo.orangehrmlive.com/");
+await page.locator("button").click(); // No wait for page load
+'''
+
+## Test Cleanup
+Avoid manual page.close() calls - Playwright handles this automatically
+Use fixtures for setup/teardown when needed
+Let Playwright manage browser lifecycle
+
+## Best Practices
+Use async/await consistently
+Add meaningful wait strategies when needed (Playwright auto-waits, but explicit waits help for complex scenarios)
+Keep tests focused - one scenario per test
+Use descriptive variable names for locators when reused
+Follow the existing project structure and naming conventions
+
+
+**Steps to create:**
+1. Create the directory: `.cursor/rules/` (if it doesn't exist)
+2. Create the file: `playwright-testing.mdc`
+3. Paste the content above
+
+The rule will apply when you're working on files matching `tests/**/*.spec.ts`. Cursor will use these guidelines when generating or modifying Playwright tests.
