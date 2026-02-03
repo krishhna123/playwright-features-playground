@@ -13,7 +13,6 @@ on:
 
 jobs:
   test:
-    environment: ${{ inputs.environment }}
     env: {
       USERNAME: ${{ secrets.USERNAME }},
       PASSWORD: ${{ secrets.PASSWORD }}
