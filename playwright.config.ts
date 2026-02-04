@@ -3,7 +3,14 @@ import dotenv from "dotenv";
 import path from "path";
 
 // Load environment variables from .env file
-dotenv.config({ path: path.resolve(__dirname, ".env") });
+// Only load .env if it exists, to avoid errors in CI (e.g., GitHub Actions) where env vars are set as secrets.
+// This prevents dotenv from throwing if .env is absent (common in CI)
+// Playwright/GitHub Actions will use process.env for secrets instead.
+import fs from "fs";
+const envPath = path.resolve(__dirname, ".env");
+if (fs.existsSync(envPath)) {
+  dotenv.config({ path: envPath });
+}
 
 export default defineConfig({
   testDir: "./tests",

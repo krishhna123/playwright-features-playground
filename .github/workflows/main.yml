@@ -4,15 +4,16 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run tests against'
+        type: environment
+        required: false
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-      env: {
-      USERNAME: ${{ secrets.USERNAME }},
-      PASSWORD: ${{ secrets.PASSWORD }}
-    }
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -24,6 +25,9 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
+      env: 
+        USERNAME: ${{ inputs.environment.USERNAME }},
+        PASSWORD: ${{ inputs.environment.PASSWORD }}
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
