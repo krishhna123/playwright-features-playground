@@ -9,8 +9,10 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/mcp": "latest",
-    "@playwright/test": "^1.58",
+    "@playwright/test": "^1.58.2",
     "@types/node": "^20.12.11",
+    "allure-commandline": "^2.36.0",
+    "allure-playwright": "^3.4.5",
     "dotenv": "^17.2.3"
   },
   "dependencies": {
