@@ -26,6 +26,7 @@ test("login", async ({ page }) => {
 ## Locator Strategies
 Prefer semantic locators in this order:
 getByRole() - Most accessible and stable
+getByLabelText() - accessible and stable
 getByPlaceholder() - For form inputs
 getByText() - For text content
 getByTestId() - For test-specific attributes
