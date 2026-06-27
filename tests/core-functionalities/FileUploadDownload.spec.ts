@@ -18,6 +18,7 @@ test("File upload and download test", async ({ page }) => {
   const fileName = download[0].suggestedFilename();
   await download[0].saveAs(`./downloads/${fileName}`);
 
+
   // way 2 to keep file
   const customName = "customName";
   await download[0].saveAs(`./downloads/${customName}.pdf`);
