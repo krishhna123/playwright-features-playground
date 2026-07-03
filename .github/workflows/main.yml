@@ -4,52 +4,52 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to run tests against'
+        description: "Environment to run tests against"
         type: environment
         required: false
 
   # Daily scheduled run at 2 PM UTC
   schedule:
-    - cron: '0 14 * * *'
+    - cron: "0 14 * * *"
 
   # Trigger on changes to test code
   push:
-    branches: [ main, master ]
+    branches: [main]
     paths:
-      - 'tests/**'
-      - 'tests-examples/**'
-      - 'playwright.config.*'
-      - 'package.json'
-      - 'package-lock.json'
+      - "tests/**"
+      - "tests-examples/**"
+      - "playwright.config.*"
+      - "package.json"
+      - "package-lock.json"
   pull_request:
-    branches: [ main, master ]
+    branches: [main]
     paths:
-      - 'tests/**'
-      - 'tests-examples/**'
-      - 'playwright.config.*'
-      - 'package.json'
-      - 'package-lock.json'
+      - "tests/**"
+      - "tests-examples/**"
+      - "playwright.config.*"
+      - "package.json"
+      - "package-lock.json"
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 18
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-      env: 
-        USERNAME: ${{ inputs.environment.USERNAME }},
-        PASSWORD: ${{ inputs.environment.PASSWORD }}
-    - uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: npx playwright test
+        env:
+          USERNAME: ${{ inputs.environment.USERNAME }},
+          PASSWORD: ${{ inputs.environment.PASSWORD }}
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
