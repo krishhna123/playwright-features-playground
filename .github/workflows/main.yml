@@ -9,8 +9,8 @@ on:
         required: false
 
   # Daily scheduled run at 2 PM UTC
-  schedule:
-    - cron: "0 14 * * *"
+  # schedule:
+  #  - cron: "0 14 * * *"
 
   # Trigger on changes to test code
   push:
