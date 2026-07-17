@@ -1,3 +1,13 @@
+/**
+ * Generates an HTML notification banner to be used as a screencast overlay.
+ *
+ * Returns a self-contained HTML document with a centered, rounded banner
+ * displaying the given text. Colors are customizable via the options parameter.
+ *
+ * @param text - The message to display inside the overlay banner.
+ * @param options - Optional styling overrides for background and text colors.
+ * @returns A full HTML string suitable for `page.screencast.showOverlay()`.
+ */
 export const createOverlay = (
   text: string,
   options?: { backgroundColor: string; textColor: string },

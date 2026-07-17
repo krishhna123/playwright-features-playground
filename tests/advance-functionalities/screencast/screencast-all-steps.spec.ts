@@ -17,6 +17,13 @@ test.describe("screencast functionality", () => {
     await page.goto("");
   });
 
+  /**
+   * Verifies that a video is automatically recorded for the full test
+   * when screencast video mode is set to "on" at the test level.
+   *
+   * Navigates from the shop homepage to a product detail page and back,
+   * exercising basic page interactions that should be captured in the video.
+   */
   test("save videos by default with screencast", async ({ page }) => {
     await page.getByRole("searchbox", { name: "Search for:" }).press("Enter");
     await page
@@ -27,6 +34,15 @@ test.describe("screencast functionality", () => {
     await page.getByRole("link", { name: "online shop logo" }).click();
   });
 
+  /**
+   * Validates that named chapters can be inserted into the screencast video
+   * to label distinct phases of the test flow.
+   *
+   * Covers the full shopping journey across three chapters:
+   * 1. Shop — search for an album, set quantity to 2, add to cart.
+   * 2. Cart — navigate to the cart page and verify subtotal / total prices.
+   * 3. Checkout — proceed to checkout and confirm the totals carry over.
+   */
   test("save chapters", async ({ page }) => {
     await page.screencast.showChapter("Navigating to shop page", {
       description:
@@ -71,6 +87,13 @@ test.describe("screencast functionality", () => {
     ).toBeVisible();
   });
 
+  /**
+   * Ensures that custom HTML overlays can be displayed at key steps during
+   * a screencast recording to provide visual context in the video.
+   *
+   * The test follows the same three-phase shopping flow as the chapters test,
+   * but uses `showOverlay` with the `createOverlay` helper instead of chapters.
+   */
   test("validate overlay", async ({ page }) => {
     await page.screencast.showOverlay(
       createOverlay(

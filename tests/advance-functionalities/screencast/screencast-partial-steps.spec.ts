@@ -1,25 +1,32 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("screencast partial steps", () => {
+  /**
+   * Demonstrates recording only a subset of test steps via manual
+   * `screencast.start()` / `screencast.stop()` boundaries.
+   *
+   * The test navigates through Playwright documentation pages but only
+   * captures video (with action highlights) for the middle segment —
+   * the "How to install Playwright" section. Steps before `start()` and
+   * after `stop()` are excluded from the recording.
+   */
   test("saves only some part from the test", async ({ page }) => {
     await page.goto("https://playwright.dev/");
+    await expect(
+      page.getByRole("heading", { name: /Playwright enables reliable/ }),
+    ).toBeVisible();
+    await page.getByRole("link", { name: "Get started" }).click();
+    await expect(
+      page.getByRole("heading", { name: "Installation" }),
+    ).toBeVisible();
 
     await page.screencast.start({
-      path: test.info().outputPath("video.webm"),
+      path: test.info().outputPath("video_1.webm"),
     });
-    await page.getByRole("link", { name: "Get started" }).click();
-
-    await expect(
-      page.getByRole("heading", { name: "Playwright enables reliable" }),
-    ).toBeVisible();
     await page.screencast.showActions({
       cursor: "pointer",
       position: "top-right",
     });
-
-    await expect(
-      page.getByRole("heading", { name: "Installation" }),
-    ).toBeVisible();
     await page.getByRole("link", { name: "How to install Playwright" }).click();
     await expect(
       page.getByRole("heading", { name: "Installing PlaywrightDirect" }),
@@ -30,7 +37,6 @@ test.describe("screencast partial steps", () => {
         .getByRole("code")
         .filter({ hasText: "pnpm exec playwright test --ui" }),
     ).toBeVisible();
-
     await page.screencast.stop();
 
     await page
