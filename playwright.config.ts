@@ -14,7 +14,7 @@ if (fs.existsSync(envPath)) {
 
 export default defineConfig({
   testDir: "./tests",
-  testIgnore: "./tests/core-functionalities/*",
+  testIgnore: "**/core-functionalities/**/*.spec.ts",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -41,7 +41,6 @@ export default defineConfig({
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
-      testIgnore: "./tests/core-functionalities",
     },
     // {
     //   name: "firefox",
